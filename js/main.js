@@ -43,6 +43,19 @@ function buildLinkHref(type, value) {
   return value;
 }
 
+function loadStylesheet(href) {
+  if (document.querySelector(`link[href="${href}"]`)) {
+    return;
+  }
+
+  const stylesheet = document.createElement("link");
+  stylesheet.rel = "stylesheet";
+  stylesheet.href = href;
+  document.head.appendChild(stylesheet);
+}
+
+loadStylesheet("css/polish.css");
+
 contactConfigNodes.forEach((node) => {
   const key = node.dataset.configKey || "";
   const fallbackLabel = node.dataset.emptyLabel || `[${key}]`;
@@ -81,10 +94,7 @@ function addPublicContactAccess() {
   const intakeEmail = readConfigValue("intakeEmail", "Intake@executiveculturesolutions.com");
   const phone = readConfigValue("businessPhone", "(910) 315-0436");
 
-  const stylesheet = document.createElement("link");
-  stylesheet.rel = "stylesheet";
-  stylesheet.href = "css/contact-access.css";
-  document.head.appendChild(stylesheet);
+  loadStylesheet("css/contact-access.css");
 
   const ribbon = document.createElement("div");
   ribbon.className = "ecs-contact-ribbon";
@@ -152,8 +162,10 @@ if (chatOpenButton && chatDialog && chatStatus && chatComposer && chatSendButton
     chatOpenButton.disabled = true;
     chatOpenButton.setAttribute("aria-disabled", "true");
     chatOpenButton.setAttribute("aria-expanded", "false");
-    chatStatus.textContent = "Chat is not yet available. Please use the contact channels on this page.";
+    chatOpenButton.textContent = "ECS Live Chat — Coming Soon";
+    chatStatus.textContent = "Live chat is being prepared. Use the contact or client-intake channels for immediate assistance.";
     chatComposer.disabled = true;
+    chatComposer.placeholder = "Live chat is not yet active.";
     chatSendButton.disabled = true;
   }
 
