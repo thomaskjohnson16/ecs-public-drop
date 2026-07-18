@@ -1,14 +1,149 @@
-/* ECS public contact-access patch */
-.ecs-contact-ribbon{background:#071528;color:#fff;border-bottom:1px solid rgba(255,255,255,.14)}
-.ecs-contact-ribbon__inner{width:min(1160px,calc(100% - 40px));margin:0 auto;min-height:42px;display:flex;align-items:center;justify-content:flex-end;gap:18px;font-size:.82rem;font-weight:700}
-.ecs-contact-ribbon a{color:#fff;text-decoration:none;overflow-wrap:anywhere}
-.ecs-contact-ribbon a:hover,.ecs-contact-ribbon a:focus{text-decoration:underline}
+/* ECS public contact-access and intake presentation */
+.ecs-contact-ribbon{
+  background:#071528;
+  color:#fff;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+.ecs-contact-ribbon__inner{
+  width:min(1160px,calc(100% - 40px));
+  margin:0 auto;
+  min-height:46px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:10px;
+  padding:6px 0;
+  font-size:.8rem;
+  font-weight:700;
+}
+.ecs-contact-ribbon a{
+  display:inline-flex;
+  align-items:center;
+  min-height:32px;
+  padding:6px 11px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:999px;
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  text-decoration:none;
+  line-height:1.2;
+  overflow-wrap:anywhere;
+}
+.ecs-contact-ribbon a:hover,
+.ecs-contact-ribbon a:focus{
+  background:rgba(255,255,255,.11);
+  border-color:rgba(255,255,255,.34);
+  text-decoration:none;
+}
+.ecs-contact-ribbon a[href^="mailto:"]::before{content:"Email";margin-right:7px;color:#9fb4ca;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.ecs-contact-ribbon a[href^="tel:"]::before{content:"Call";margin-right:7px;color:#9fb4ca;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+
+/* Refine the main intake/contact area so it reads like a professional contact panel, not placeholder fields. */
+.contact-methods{
+  gap:10px;
+  margin:22px 0;
+}
+.contact-methods>div{
+  position:relative;
+  padding:16px 18px 16px 20px;
+  border:1px solid #d9e1eb;
+  border-left:4px solid #0a1e3a;
+  border-radius:12px;
+  background:#fff;
+  box-shadow:0 6px 18px rgba(10,30,58,.06);
+}
+.contact-methods>div:nth-child(2){border-left-color:#c8102e}
+.contact-methods>div:nth-child(3){border-left-color:#1f4f8a}
+.contact-methods span{
+  margin-bottom:5px;
+  color:#54637a;
+  font-size:.7rem;
+  letter-spacing:.08em;
+}
+.contact-methods a{
+  color:#0a1e3a;
+  font-size:1rem;
+  font-weight:800;
+  text-decoration:none;
+}
+.contact-methods a:hover,
+.contact-methods a:focus{color:#c8102e;text-decoration:underline}
+.detail-card.accent{
+  border-top:0;
+  border-left:4px solid #c8102e;
+  box-shadow:0 10px 28px rgba(10,30,58,.09);
+}
+.detail-card.accent p{color:#40506a}
+.prototype-warning{
+  border:1px solid rgba(200,16,46,.18);
+  border-left:4px solid #c8102e;
+  background:#fff7f8;
+  color:#65101f;
+  box-shadow:none;
+}
+
 .ecs-mobile-contact-bar{display:none}
+
 @media(max-width:860px){
-  body{padding-bottom:74px}
-  .ecs-contact-ribbon__inner{width:min(100% - 28px,1160px);justify-content:center;flex-wrap:wrap;gap:8px 16px;padding:9px 0;text-align:center}
-  .ecs-mobile-contact-bar{position:fixed;left:0;right:0;bottom:0;z-index:100;display:grid;grid-template-columns:repeat(3,1fr);background:#fff;border-top:1px solid #d9e1eb;box-shadow:0 -8px 24px rgba(10,30,58,.16)}
-  .ecs-mobile-contact-bar a{min-height:64px;display:flex;align-items:center;justify-content:center;padding:8px 6px;color:#0a1e3a;text-decoration:none;font-size:.76rem;font-weight:800;text-align:center;border-right:1px solid #d9e1eb}
-  .ecs-mobile-contact-bar a:last-child{border-right:0;background:#c8102e;color:#fff}
-  .ecs-mobile-contact-bar a:focus-visible{outline:3px solid rgba(200,16,46,.45);outline-offset:-3px}
+  body{padding-bottom:70px}
+  .ecs-contact-ribbon__inner{
+    width:min(100% - 24px,1160px);
+    justify-content:center;
+    gap:7px;
+    padding:9px 0;
+  }
+  .ecs-contact-ribbon a{
+    min-height:36px;
+    max-width:100%;
+    padding:7px 10px;
+    font-size:.72rem;
+  }
+  .ecs-contact-ribbon a[href^="mailto:"]::before,
+  .ecs-contact-ribbon a[href^="tel:"]::before{display:none}
+
+  .ecs-mobile-contact-bar{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:100;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    background:#fff;
+    border-top:1px solid #d9e1eb;
+    box-shadow:0 -8px 24px rgba(10,30,58,.16);
+  }
+  .ecs-mobile-contact-bar a{
+    min-height:64px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:8px 7px;
+    color:#0a1e3a;
+    text-decoration:none;
+    font-size:.76rem;
+    font-weight:800;
+    text-align:center;
+    border-right:1px solid #d9e1eb;
+  }
+  .ecs-mobile-contact-bar a:last-child{
+    border-right:0;
+    background:#c8102e;
+    color:#fff;
+  }
+  .ecs-mobile-contact-bar a:focus-visible{
+    outline:3px solid rgba(200,16,46,.45);
+    outline-offset:-3px;
+  }
+
+  .contact-methods>div{padding:15px 16px}
+  .contact-methods a{font-size:.94rem}
+  .detail-card.accent{padding:24px 20px}
+}
+
+@media(max-width:560px){
+  .ecs-contact-ribbon__inner{display:grid;grid-template-columns:1fr 1fr}
+  .ecs-contact-ribbon a{justify-content:center;text-align:center}
+  .ecs-contact-ribbon a:first-child{grid-column:1 / -1}
+  .contact-methods a{overflow-wrap:anywhere}
 }
