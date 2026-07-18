@@ -76,6 +76,45 @@ contactLinkNodes.forEach((node) => {
   node.removeAttribute("aria-disabled");
 });
 
+function addPublicContactAccess() {
+  const contactEmail = readConfigValue("publicContactEmail", "Contact@executiveculturesolutions.com");
+  const intakeEmail = readConfigValue("intakeEmail", "Intake@executiveculturesolutions.com");
+  const phone = readConfigValue("businessPhone", "(910) 315-0436");
+
+  const stylesheet = document.createElement("link");
+  stylesheet.rel = "stylesheet";
+  stylesheet.href = "css/contact-access.css";
+  document.head.appendChild(stylesheet);
+
+  const ribbon = document.createElement("div");
+  ribbon.className = "ecs-contact-ribbon";
+  ribbon.setAttribute("aria-label", "ECS public contact information");
+  ribbon.innerHTML = `
+    <div class="ecs-contact-ribbon__inner">
+      <a href="${buildLinkHref("mailto", contactEmail)}">${contactEmail}</a>
+      <a href="${buildLinkHref("mailto", intakeEmail)}">${intakeEmail}</a>
+      <a href="${buildLinkHref("tel", phone)}">${phone}</a>
+    </div>`;
+
+  const header = document.querySelector(".site-header");
+  if (header) {
+    header.insertAdjacentElement("beforebegin", ribbon);
+  } else {
+    document.body.insertAdjacentElement("afterbegin", ribbon);
+  }
+
+  const mobileBar = document.createElement("nav");
+  mobileBar.className = "ecs-mobile-contact-bar";
+  mobileBar.setAttribute("aria-label", "Quick contact");
+  mobileBar.innerHTML = `
+    <a href="${buildLinkHref("tel", phone)}">Call ECS</a>
+    <a href="${buildLinkHref("mailto", contactEmail)}">Email ECS</a>
+    <a href="${buildLinkHref("mailto", intakeEmail)}">Client Intake</a>`;
+  document.body.appendChild(mobileBar);
+}
+
+addPublicContactAccess();
+
 if (skipLink && mainContent) {
   skipLink.addEventListener("click", () => {
     requestAnimationFrame(() => {
