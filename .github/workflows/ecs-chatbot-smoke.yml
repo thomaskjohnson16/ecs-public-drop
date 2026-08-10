@@ -1,0 +1,40 @@
+name: ECS Chatbot Smoke QA
+
+on:
+  push:
+    branches:
+      - agent/ecs-live-chatbot-integration-20260810
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: JavaScript syntax check
+        run: node --check js/main.js
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Start site
+        run: |
+          python3 -m http.server 4173 > "$RUNNER_TEMP/ecs-site.log" 2>&1 &
+          echo $! > "$RUNNER_TEMP/ecs-site.pid"
+          for i in {1..20}; do
+            curl -fsS http://127.0.0.1:4173/index.html >/dev/null && exit 0
+            sleep 1
+          done
+          exit 1
+      - name: Run chatbot smoke test
+        env:
+          BASE_URL: http://127.0.0.1:4173
+        run: node .github/scripts/ecs-chatbot-smoke.mjs
+      - name: Stop site
+        if: always()
+        run: |
+          if [[ -f "$RUNNER_TEMP/ecs-site.pid" ]]; then kill "$(cat "$RUNNER_TEMP/ecs-site.pid")" || true; fi
